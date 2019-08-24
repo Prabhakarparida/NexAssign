@@ -4,8 +4,8 @@ body
   background-color:#f5f5f5;
 }
 .imagePreview {
-    width: 200px;
-    height: 180px;
+    width: 310px;
+    height: 350px;
     background-position: center;
     background:url(http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg);
     background-color:#fff;
@@ -53,4 +53,6 @@ body
   cursor:pointer;
   font-size:15px;
 }
-
+.example-chip-list {
+  width: 100%;
+}

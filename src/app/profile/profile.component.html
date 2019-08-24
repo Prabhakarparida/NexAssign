@@ -32,23 +32,160 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="well">
-            <!-- <img alt="Image" [src]="profileImage" style="width:100%;min-height:250px;"> -->
+            <!-- <img src="{{'data:image/png;base64,' + imagePath}}"/> -->
             <img alt="Image" src="../../assets/images/DSC_2572.jpg" style="width:100%;min-height:250px;">
         </div>
         <div class="well" style="margin-top:10px;">
             <button type="button" class="btn btn-warning">Edit Photo</button>
-            <button type="button" class="btn btn-warning" style="margin-left:10px;">Edit Profile</button>
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" style="margin-left:10px;">Edit Profile</button>
         </div>
        
       </div>
       <div class="col-sm-8">
         <div class="well">
-           <p>
-                Highly-motivated, deadline-committed, goal-driven accountant with over 7 years of experience. Proven track record of excellence. Some of my core skills include taxation, regulatory compliance, budgeting and forecasting. Supervised internal and external audit. Adept at analytics and in-depth reporting service. An engaging team-player who also acts as a motivator.
-           </p>
+           
+          <div *ngFor="let data of products">
+            I'm {{data.firstName}} {{data.lastName}} and Im above {{data.age}} and you can send your email to 
+            {{data.email}}. I live in the state of {{data.state}} . I like to play 
+            <span *ngFor="let data of this.intrestData">{{data.value}},</span>
+            and reading book .And please send me {{data.subscribe}}. Please reach out to me on my {{data.mobile}}.
+          </div>
+        
            <button type="button" class="btn btn-primary">I Agree</button>
         </div>
       </div>
     </div>
     </div>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="row">
+                <div class="col-sm-12">
+                  <section style="float:left;padding:20px 20px;">
+                      <h4>Edit Profile</h4>
+                  </section>
+                  <section style="float:right;padding:20px 20px;">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </section>
+                      <hr style="margin-top:60px;">
+                </div>
+            </div>
+            <div class="modal-body" style="padding-left:20px;padding-right:20px;">
+              <form class="form-horizontal" [formGroup]="registerForm"  (ngSubmit)="onSubmit()">
+                  <div class="form-group">
+                    <div class="col-sm-12">
+                      <input type="text" [(ngModel)]="firstName" class="form-control" formControlName="firstName"   pattern="[a-zA-Z][a-zA-Z ]+" maxlength="20" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" placeholder="Enter First Name" >
+                      <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                              <div *ngIf="f.firstName.errors.required" style="color:brown">First Name is required.</div>
+                              <div *ngIf="f.firstName.errors.pattern" style="color:brown">Only alphabets allowed.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                  <div class="col-sm-12">
+                      <input type="text" class="form-control" [(ngModel)]="lastName" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" placeholder="Enter Last Name" >
+                      <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                              <div *ngIf="f.lastName.errors.required" style="color:brown">Last Name is required</div>
+                      </div>
+                  </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-12">          
+                          <input type="email" class="form-control" [(ngModel)]="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Enter Email" >
+                          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                  <div *ngIf="f.email.errors.required" style="color:brown">Email is required</div>
+                          </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                          <div class="col-sm-12"> 
+                          <input type="mobile" class="form-control" [(ngModel)]="mobile" formControlName="mobile" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" placeholder="Enter Mobile" >
+                          <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                                  <div *ngIf="f.mobile.errors.required" style="color:brown">Mobile number is required</div>
+                          </div>
+                          </div>
+                  </div>
+                  <div class="form-group">
+                          <div class="col-sm-12">
+                              Age
+                              <ng5-slider [(value)]="value"  [options]="options"></ng5-slider>
+                          </div>
+                  </div>
+                  <div class="form-group select-box">
+                          <div class="col-sm-12">  
+                          <select class="form-control select_style1" [(ngModel)]="state" [ngClass]="{ 'is-invalid': submitted && f.state.errors }" formControlName="state">
+                          <option value="" >Select State</option>
+                          <option value="Odisha">Odisha</option>
+                          <option value="Karnatak">Karnatak</option>
+                          <option value="Tamilnadu">Tamilnadu</option>
+                          </select>
+                          <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
+                                  <div *ngIf="f.state.errors.required" style="color:brown">State is required</div>
+                          </div>
+                          </div>
+                  </div>
+                  <div class="form-group select-box">
+                          <div class="col-sm-12">  
+                          <select class="form-control select_style1" [(ngModel)]="country" [ngClass]="{ 'is-invalid': submitted && f.country.errors }" formControlName="country">
+                          <option value="" >Select Country</option>
+                          <option value="India">India</option>
+                          <option value="Pakistan">Pakistan</option>
+                          <option value="Austrailia">Austrailia</option>
+                          </select>
+                          <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                                  <div *ngIf="f.country.errors.required" style="color:brown">Country is required</div>
+                          </div>
+                          </div>
+                  </div>
+                  <div class="form-group select-box">
+                    <div class="col-sm-12">  
+                    <select class="form-control select_style1" (change)="onSelect($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.address.errors }" formControlName="address">
+                    <option value="" >Select Address</option>
+                    <option value="Home" >Home</option>
+                    <option value="Company">Company</option>
+                    </select>
+                    <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                            <div *ngIf="f.address.errors.required" style="color:brown">Address is required</div>
+                    </div>
+                    </div>
+                 </div>
+                 <div class="form-group" *ngIf="homeAddress">
+                  <div class="col-sm-12">
+                    <input type="text" class="form-control" formControlName="homeAddress1" placeholder="Home Address1"  >
+                    <input type="text" class="form-control" formControlName="homeAddress2" placeholder="Home Address2" style="margin-top:10px;">
+                  </div>
+                 </div>
+                 <div class="form-group" *ngIf="companyAddress">
+                  <div class="col-sm-12">
+                    <input type="text" class="form-control" formControlName="companyAddress1"placeholder="Company Address1">
+                    <input type="text" class="form-control" formControlName="companyAddress2" placeholder="Company Address2" style="margin-top:10px;">
+                  </div>
+                 </div>
+                 <div>
+                    <div class="col-sm-12">
+                      <span>Intrest</span>
+                       <tag-input [(ngModel)]='items' formControlName="intrestData" ></tag-input> 
+                    </div>
+                </div>
+                  <div class="form-group">        
+                    <div class="col-sm-12">
+                      <div class="checkbox">
+                        <label><input type="checkbox"  formControlName="subscribeData" > Subscribe to news letter</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-sm-12">
+                          <button [disabled]="loading" class="btn btn-primary" style="width:100px;">Submit</button>
+                      </div>
+                  </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                  <!-- <button type="submit" class="btn btn-default">Cancel</button> -->
+                  <button [disabled]="loading" class="btn btn-default">Cancel</button>
+            </div>
+          </div>  
+        </div>
+        </div>
     

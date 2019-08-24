@@ -202,8 +202,8 @@
                             </div>
                         </div>
                         <div class="modal-body" style="padding-left:20px;padding-right:20px;">
-                          <form class="form-horizontal" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                              <div class="form-group">
+                          <form class="form-horizontal" [formGroup]="registerForm"  (ngSubmit)="onSubmit()">
+                              <!-- <div class="form-group">
                                   <div class="col-sm-12">
                                   <div class="container">
                                           <div class="row">
@@ -217,12 +217,20 @@
                                          </div>
                                         </div>
                                       </div>
+                                </div> -->
+                                <div class="form-group">
+                                  <div class="col-sm-12">
+                                      <img *ngIf="imagePreview"
+                                      [src]="sanitizer.bypassSecurityTrustUrl(imagePreview)"><br/>
+                                      <input type="file" (change)="onImageChange($event)" accept=".png">
+                                  </div>
                                 </div>
                               <div class="form-group">
                                 <div class="col-sm-12">
-                                  <input type="text" class="form-control" formControlName="firstName"  [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" placeholder="Enter First Name" >
+                                  <input type="text" class="form-control" formControlName="firstName"   pattern="[a-zA-Z][a-zA-Z ]+" maxlength="20" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" placeholder="Enter First Name" >
                                   <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-                                          <div *ngIf="f.firstName.errors.required" style="color:brown">First Name is required</div>
+                                          <div *ngIf="f.firstName.errors.required" style="color:brown">First Name is required.</div>
+                                          <div *ngIf="f.firstName.errors.pattern" style="color:brown">Only alphabets allowed.</div>
                                   </div>
                                 </div>
                               </div>
@@ -248,6 +256,12 @@
                                       <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
                                               <div *ngIf="f.mobile.errors.required" style="color:brown">Mobile number is required</div>
                                       </div>
+                                      </div>
+                              </div>
+                              <div class="form-group">
+                                      <div class="col-sm-12">
+                                          Age
+                                          <ng5-slider [(value)]="value"  [options]="options"></ng5-slider>
                                       </div>
                               </div>
                               <div class="form-group select-box">
@@ -276,26 +290,48 @@
                                       </div>
                                       </div>
                               </div>
-                              <div class="form-group">
-                                      <div class="col-sm-12">  
-                                      <textarea class="form-control" rows="2" placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }" formControlName="address"></textarea>
-                                      <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
-                                              <div *ngIf="f.address.errors.required" style="color:brown">Address is required</div>
-                                      </div>
-                                  </div>  
+                              <div class="form-group select-box">
+                                <div class="col-sm-12">  
+                                <select class="form-control select_style1" (change)="onSelect($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.address.errors }" formControlName="address">
+                                <option value="" >Select Address</option>
+                                <option value="Home" >Home</option>
+                                <option value="Company">Company</option>
+                                </select>
+                                <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                                        <div *ngIf="f.address.errors.required" style="color:brown">Address is required</div>
+                                </div>
+                                </div>
+                             </div>
+                             <div class="form-group" *ngIf="homeAddress">
+                              <div class="col-sm-12">
+                                <input type="text" class="form-control" formControlName="homeAddress1" placeholder="Home Address1"  >
+                                <input type="text" class="form-control" formControlName="homeAddress2" placeholder="Home Address2" style="margin-top:10px;">
                               </div>
+                             </div>
+                             <div class="form-group" *ngIf="companyAddress">
+                              <div class="col-sm-12">
+                                <input type="text" class="form-control" formControlName="companyAddress1"placeholder="Company Address1">
+                                <input type="text" class="form-control" formControlName="companyAddress2" placeholder="Company Address2" style="margin-top:10px;">
+                              </div>
+                             </div>
+                             <div>
+                                <div class="col-sm-12">
+                                  <span>Intrest</span>
+                                   <tag-input [(ngModel)]='items' formControlName="intrestData" ></tag-input> 
+                                </div>
+                            </div>
                               <div class="form-group">        
                                 <div class="col-sm-12">
                                   <div class="checkbox">
-                                    <label><input type="checkbox" name="remember" > Subscribe to news letter</label>
+                                    <label><input type="checkbox"  formControlName="subscribeData" > Subscribe to news letter</label>
                                   </div>
                                 </div>
                               </div>
                               <div class="form-group">
                                   <div class="col-sm-12">
                                       <button [disabled]="loading" class="btn btn-primary" style="width:100px;">Submit</button>
+                                  </div>
                               </div>
-                            </div>
                             </form>
                         </div>
                         <div class="modal-footer">
